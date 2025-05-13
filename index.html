@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Playground</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    h1 {
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #eee;
+    }
+
+    button:hover {
+      background-color: #ddd;
+    }
+
+    #hoverElement {
+      background-color: lightyellow;
+      padding: 15px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    #hoverElement:hover {
+      background-color: lightblue;
+    }
+
+    #doubleClickTarget {
+      background-color: lightcoral;
+      color: white;
+    }
+
+    #longPressTarget {
+      background-color: lightseagreen;
+      color: white;
+    }
+
+    #imageGallery {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    #galleryImage {
+      max-width: 300px;
+      height: auto;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    .tabs {
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+
+    .tab-button {
+      background-color: #f0f0f0;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tab-button.active {
+      background-color: #ddd;
+    }
+
+    .tab-content {
+      padding: 15px;
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    form {
+      background-color: white;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    form div {
+      margin-bottom: 10px;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"] {
+      width: calc(100% - 12px);
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+
+    form button[type="submit"] {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    form button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    #passwordFeedback {
+      margin-top: 5px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Playground!</h1>
+
+  <button id="myButton">Click Me</button>
+  <div id="hoverElement">Hover Over Me</div>
+  <input type="text" id="keypressInput" placeholder="Type something">
+  <button id="doubleClickTarget">Double Click Me for a Secret!</button>
+  <div id="longPressTarget">Long Press Me!</div>
+  <hr>
+  <button id="changeMeButton">Click Me</button>
+  <div id="imageGallery">
+    <img id="galleryImage" src="placeholder.jpg" alt="Gallery Image" width="200">
+    <button id="prevButton">Previous</button>
+    <button id="nextButton">Next</button>
+  </div>
+  <div class="tabs">
+    <button class="tab-button active">Tab 1</button>
+    <button class="tab-button">Tab 2</button>
+    <div class="tab-content active">Content for Tab 1</div>
+    <div class="tab-content">Content for Tab 2</div>
+  </div>
+  <hr>
+  <form id="myForm">
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+  <div>
+    <label for="passwordRealtime">Password (Real-time feedback):</label>
+    <input type="password" id="passwordRealtime">
+    <span id="passwordFeedback"></span>
+  </div>
+
+  <script>
+    // JavaScript Event Handling
+    const myButton = document.getElementById('myButton');
+    if (myButton) {
+      myButton.addEventListener('click', function() {
+        console.log('Button clicked!');
+        alert('Button Clicked!');
+      });
+    }
+
+    const hoverElement = document.getElementById('hoverElement');
+    if (hoverElement) {
+      hoverElement.addEventListener('mouseover', function() {
+        this.style.backgroundColor = 'lightblue';
+      });
+      hoverElement.addEventListener('mouseout', function() {
+        this.style.backgroundColor = 'lightyellow';
+      });
+    }
+
+    document.addEventListener('keydown', function(event) {
+      console.log('Key pressed:', event.key);
+      if (event.key === 'Enter') {
+        console.log('Enter key was pressed!');
+        alert('Enter key pressed!');
+      }
+    });
+
+    const doubleClickElement = document.getElementById('doubleClickTarget');
+    if (doubleClickElement) {
+      doubleClickElement.addEventListener('dblclick', function() {
+        console.log('Double-clicked!');
+        alert('Secret action: Double Click!');
+      });
+    }
+
+    const longPressElement = document.getElementById('longPressTarget');
+    let pressTimer;
+    if (longPressElement) {
+      longPressElement.addEventListener('mousedown', function() {
+        pressTimer = setTimeout(() => {
+          console.log('Long press detected!');
+          alert('Secret action: Long Press!');
+        }, 1000);
+      });
+      longPressElement.addEventListener('mouseup', function() {
+        clearTimeout(pressTimer);
+      });
+    }
+
+    // Interactive Elements
+    const changeButton = document.getElementById('changeMeButton');
+    if (changeButton) {
+      changeButton.addEventListener('click', function() {
+        if (this.textContent === 'Click Me') {
+          this.textContent = 'You Clicked!';
+          this.style.backgroundColor = 'lightgreen';
+        } else {
+          this.textContent = 'Click Me';
+          this.style.backgroundColor = '#eee';
+        }
+      });
+    }
+
+    const galleryImage = document.getElementById('galleryImage');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    const images = ['image1.jpg', 'image2.jpg', 'image3.jpg']; // Replace with your image paths
+    let currentIndex = 0;
+
+    function updateImage() {
+      if (galleryImage && images.length > 0) {
+        galleryImage.src = images[currentIndex];
+      }
+    }
+
+    if (prevButton) {
+      prevButton.addEventListener('click', function() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        updateImage();
+      });
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener('click', function() {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateImage();
+      });
+    }
+
+    updateImage(); // Initial image load
+
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        button.classList.add('active');
+        tabContents[index].classList.add('active');
+      });
+    });
+
+    if (tabButtons.length > 0 && tabContents.length > 0) {
+      tabButtons[0].classList.add('active');
+      tabContents[0].classList.add('active');
+    }
+
+    // Form Validation
+    const form = document.getElementById('myForm');
+    if (form) {
+      const requiredFields = document.querySelectorAll('[required]');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const minLength = 8;
+
+      form.addEventListener('submit', function(event) {
+        let isValid = true;
+        requiredFields.forEach(field => {
+          if (!field.value.trim()) {
+            isValid = false;
+            alert(`The field "${field.name}" is required.`);
+          }
+        });
+
+        if (emailInput) {
+          const emailValue = emailInput.value.trim();
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (emailValue && !emailRegex.test(emailValue)) {
+            isValid = false;
+            alert('Please enter a valid email address.');
+          }
+        }
+
+        if (passwordInput) {
+          const passwordValue = passwordInput.value;
+          if (passwordValue.length < minLength) {
+            isValid = false;
+            alert(`Password must be at least ${minLength} characters long.`);
+          }
+        }
+
+        if (!isValid) {
+          event.preventDefault();
+        } else {
+          alert('Form submitted successfully!'); // For demonstration
+        }
+      });
+    }
+
+    const passwordInputRealtime = document.getElementById('passwordRealtime');
+    const feedbackElement = document.getElementById('passwordFeedback');
+
+    if (passwordInputRealtime && feedbackElement) {
+      passwordInputRealtime.addEventListener('input', function() {
+        const passwordValue = this.value;
+        if (passwordValue.length < 8) {
+          feedbackElement.textContent = 'Too short!';
+          feedbackElement.style.color = 'red';
+        } else {
+          feedbackElement.textContent = 'Good!';
+          feedbackElement.style.color = 'green';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
